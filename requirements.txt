@@ -3,3 +3,4 @@ anthropic
 ai21
 tenacity
 cohere
+python-dotenv
