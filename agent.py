@@ -228,6 +228,7 @@ class BuyerAgent(DialogAgent):
         self.buyer_instruction = buyer_instruction
         self.buyer_init_price = buyer_init_price
         self.seller_init_price = seller_init_price
+        self.item = item
 
         print("Initializing buyer with engine %s" % self.engine)
 
@@ -236,6 +237,8 @@ class BuyerAgent(DialogAgent):
                 "BUYER_INIT_PRICE", str(buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace(
                 "SELLER_INIT_PRICE", str(seller_init_price))
+            self.dialog_history[i]["content"] = d["content"].replace(
+                "ITEM", item)
         return
     
     def reset(self):
@@ -247,6 +250,8 @@ class BuyerAgent(DialogAgent):
                 "BUYER_INIT_PRICE", str(self.buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace(
                 "SELLER_INIT_PRICE", str(self.seller_init_price))
+            self.dialog_history[i]["content"] = d["content"].replace(
+                "ITEM", self.item)
         return
     
     def receive_feedback(self, feedback, previous_price):
@@ -312,6 +317,7 @@ class SellerAgent(DialogAgent):
         self.seller_init_price = seller_init_price
         self.buyer_init_price = buyer_init_price
         self.cost_price = cost_price
+        self.item = item
 
         print("Initializing seller with engine %s" % self.engine)
 
@@ -319,6 +325,7 @@ class SellerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace("BUYER_INIT_PRICE", str(buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("SELLER_INIT_PRICE", str(seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("COST_PRICE", str(cost_price))
+            self.dialog_history[i]["content"] = d["content"].replace("ITEM", item)
         return
     
     def reset(self):
@@ -329,6 +336,7 @@ class SellerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace("BUYER_INIT_PRICE", str(self.buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("SELLER_INIT_PRICE", str(self.seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("COST_PRICE", str(self.cost_price))
+            self.dialog_history[i]["content"] = d["content"].replace("ITEM", self.item)
         return
     
     def receive_feedback(self, feedback, previous_price):
