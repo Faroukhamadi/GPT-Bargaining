@@ -238,7 +238,7 @@ class BuyerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace(
                 "SELLER_INIT_PRICE", str(seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace(
-                "ITEM", item)
+                "ITEM", str(item))
         return
     
     def reset(self):
@@ -251,7 +251,7 @@ class BuyerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace(
                 "SELLER_INIT_PRICE", str(self.seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace(
-                "ITEM", self.item)
+                "ITEM", str(self.item))
         return
     
     def receive_feedback(self, feedback, previous_price):
@@ -271,7 +271,7 @@ class BuyerAgent(DialogAgent):
         feedback += "In this round, your should try to improve your negotiation strategy based on the feedback from the critic. "
         feedback += "But you are **not allowed** to ask for additionl service. "
         feedback += "Your goal is to buy the %s at at lower price than the previous round, i.e., lower than $%s." %\
-                    (self.item, str(previous_price))
+                    (str(self.item), str(previous_price))
         prompt = {"role": "user", "content": feedback}
         self.dialog_history.append(prompt)
 
@@ -285,9 +285,9 @@ class BuyerAgent(DialogAgent):
         # restart the bargaining 
         prompt = {"role": "user", "content": "Now ask your price again."}
         self.dialog_history.append(prompt)
-        prompt = {"role": "assistant", "content": "Hi, how much is the %s?" % self.item}
+        prompt = {"role": "assistant", "content": "Hi, how much is the %s?" % str(self.item)}
         self.dialog_history.append(prompt)
-        prompt = {"role": "user", "content": "Hi, this is a good %s and its price is $%d" % (self.item, self.seller_init_price)}
+        prompt = {"role": "user", "content": "Hi, this is a good %s and its price is $%d" % (str(self.item), self.seller_init_price)}
         self.dialog_history.append(prompt)
         if(self.buyer_instruction == "buyer"):
             prompt = {"role": "assistant", "content": "Would you consider selling it for $%d?" % self.buyer_init_price}
@@ -325,7 +325,7 @@ class SellerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace("BUYER_INIT_PRICE", str(buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("SELLER_INIT_PRICE", str(seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("COST_PRICE", str(cost_price))
-            self.dialog_history[i]["content"] = d["content"].replace("ITEM", item)
+            self.dialog_history[i]["content"] = d["content"].replace("ITEM", str(item))
         return
     
     def reset(self):
@@ -336,7 +336,7 @@ class SellerAgent(DialogAgent):
             self.dialog_history[i]["content"] = d["content"].replace("BUYER_INIT_PRICE", str(self.buyer_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("SELLER_INIT_PRICE", str(self.seller_init_price))
             self.dialog_history[i]["content"] = d["content"].replace("COST_PRICE", str(self.cost_price))
-            self.dialog_history[i]["content"] = d["content"].replace("ITEM", self.item)
+            self.dialog_history[i]["content"] = d["content"].replace("ITEM", str(self.item))
         return
     
     def receive_feedback(self, feedback, previous_price):
@@ -355,7 +355,7 @@ class SellerAgent(DialogAgent):
         feedback += "Now let's start the next round. "
         feedback += "In this round, your should try to improve your negotiation strategy based on the feedback from the critic. "
         feedback += "Your goal is to sell the %s at at higher price than the previous round, i.e., higher than $%s." %\
-                    (self.item, str(previous_price))
+                    (str(self.item), str(previous_price))
         prompt = {"role": "user", "content": feedback}
         self.dialog_history.append(prompt)
 
@@ -366,9 +366,9 @@ class SellerAgent(DialogAgent):
         self.dialog_history.append(prompt)
 
         # restart the bargaining 
-        prompt = {"role": "user", "content": "Hi, how much is the %s?" % self.item}
+        prompt = {"role": "user", "content": "Hi, how much is the %s?" % str(self.item)}
         self.dialog_history.append(prompt)
-        prompt = {"role": "assistant", "content": "Hi, this is a good %s and its price is $%d" % (self.item, self.seller_init_price)}
+        prompt = {"role": "assistant", "content": "Hi, this is a good %s and its price is $%d" % (str(self.item), self.seller_init_price)}
         self.dialog_history.append(prompt)
         return acknowledgement
 
